@@ -30,7 +30,7 @@ class BackdropAppBar extends StatelessWidget {
       title: Row(
         children: [
           Image.asset(
-            Assets.enSplashScreenLogo,
+            Assets.nrbLogo,
             height: 40,
             width: 60,
           ),

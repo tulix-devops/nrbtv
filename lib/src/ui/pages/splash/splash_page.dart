@@ -61,13 +61,13 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: context.uiColors.tvSurface,
+      backgroundColor: context.uiColors.surface,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Spacer(),
           Image.asset(
-            Assets.enSplashScreenLogo,
+            Assets.nrbLogo,
             width: double.infinity,
             height: MediaQuery.sizeOf(context).height * 0.4,
           ),

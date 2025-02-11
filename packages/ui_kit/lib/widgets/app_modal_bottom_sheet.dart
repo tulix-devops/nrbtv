@@ -18,11 +18,11 @@ class AppBottomSheetModal extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(
-          Radius.circular(40),
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(24),
+          topRight: Radius.circular(24),
         ),
-        color:
-            context.isDarkMode ? AppColors.dark2 : context.uiColors.onPrimary,
+        color: context.uiColors.surface,
       ),
       child: Padding(
         padding: const EdgeInsets.all(24),

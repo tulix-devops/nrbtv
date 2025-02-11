@@ -55,10 +55,10 @@ class _HomePageState extends State<HomePage> {
             child: CustomScrollView(
               controller: _controller,
               slivers: [
-                if (!context.isTv)
-                  BackdropAppBar(onPressed: () {
-                    context.pushNamed(ProvidedSearchPage.path);
-                  }),
+                // if (!context.isTv)
+                //   BackdropAppBar(onPressed: () {
+                //     context.pushNamed(ProvidedSearchPage.path);
+                //   }),
                 SliverList.list(
                   children: [
                     const DeviceWrapper(

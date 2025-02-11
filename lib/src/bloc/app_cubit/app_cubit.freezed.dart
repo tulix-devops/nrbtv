@@ -331,7 +331,7 @@ class _$AppStateImpl extends _AppState with DiagnosticableTreeMixin {
   const _$AppStateImpl(
       {this.authStatus = AuthStatus.unauthenticated,
       this.currentTab = BottomBarTab.home,
-      this.themeColor = AppThemeColor.deepPurple,
+      this.themeColor = AppThemeColor.blue,
       this.isOnboardingComplete = false,
       this.hasOverlay = false,
       this.isDeviceTv = false,

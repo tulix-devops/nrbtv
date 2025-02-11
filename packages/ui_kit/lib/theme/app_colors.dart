@@ -58,25 +58,25 @@ final class LightUiColors extends UiColors {
   const LightUiColors(super.primaryColor);
 
   @override
-  Color get secondary => AppColors.green[100] as Color;
+  Color get secondary => AppColors.dark3;
 
   @override
-  Color get onSecondary => primary;
+  Color get onSecondary => Colors.white;
 
   @override
-  Color get surface => const Color(0xffF7C6D7);
+  Color get surface => AppColors.dark1;
 
   @override
-  Color get tvSurface => const Color(0xffF7C6D7);
+  Color get tvSurface => AppColors.black;
 
   @override
-  Color get onSurface => AppColors.greyscale[900] as Color;
+  Color get onSurface => Colors.white;
 
   @override
-  Color get themeButton => Colors.white;
+  Color get themeButton => AppColors.dark2;
 
   @override
-  Color get themeButtonBorder => AppColors.greyscale[200] as Color;
+  Color get themeButtonBorder => AppColors.dark3;
 }
 
 final class DarkUiColors extends UiColors {
@@ -89,13 +89,13 @@ final class DarkUiColors extends UiColors {
   Color get onSecondary => Colors.white;
 
   @override
-  Color get surface => const Color(0xffF7C6D7);
+  Color get surface => AppColors.dark1;
 
   @override
-  Color get tvSurface => const Color(0xffF7C6D7);
+  Color get tvSurface => AppColors.black;
 
   @override
-  Color get onSurface => AppColors.dark3;
+  Color get onSurface => Colors.white;
 
   @override
   Color get themeButton => AppColors.dark2;

@@ -1,5 +1,5 @@
 // const String _url = 'https://208.79.153.183/api';
-const String _url = 'https://nrbtvtv.tulix.net/api';
+const String _url = 'https://eshghtv.tulix.net/api';
 // const String _url = 'http://192.168.1.154:8000/api';
 
 class APIList {

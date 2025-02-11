@@ -10,8 +10,7 @@ abstract final class Assets {
   static const String fb = 'assets/svg/fb-icon.svg';
 
   /// world changer logo
-  static const String enSplashScreenLogo = 'assets/img/en_logo.png';
-  static const String afghanSplashLogo = 'assets/img/afghan_logo.png';
+  static const String nrbLogo = 'assets/img/nrb_logo.png';
 
   /// navigation icons (world changer icons)
   static const String accountIcon = 'assets/svg/account_wc.svg';

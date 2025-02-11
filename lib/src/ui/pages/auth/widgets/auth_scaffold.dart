@@ -143,7 +143,7 @@ class _PageHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Widget> children = [
       Image.asset(
-        Assets.enSplashScreenLogo,
+        Assets.nrbLogo,
         fit: BoxFit.cover,
         height: context.isTv ? 100 : 170,
       ),

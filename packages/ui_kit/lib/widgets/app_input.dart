@@ -224,7 +224,7 @@ class _AppInputState extends State<AppInput> {
       focusNode: _focusNode,
       canRequestFocus: !widget.isDeviceTv,
       decoration: decoration,
-      style: TextStyles.bodyMediumSemiBold.surface(context),
+      style: TextStyles.bodyMediumSemiBold,
       keyboardType: widget.type,
       enabled: !widget.isDisabled,
       obscuringCharacter: '●',
@@ -344,8 +344,6 @@ class _InputIcon extends StatelessWidget {
   }
 
   Color _getUnFocusedColor(UiColors uiColors) {
-    return isInputDirty
-        ? uiColors.onSurface
-        : AppColors.greyscale[500] as Color;
+    return isInputDirty ? uiColors.primary : AppColors.greyscale[500] as Color;
   }
 }

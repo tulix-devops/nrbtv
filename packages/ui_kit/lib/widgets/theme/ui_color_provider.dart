@@ -39,8 +39,8 @@ class _ThemeColorListenerState extends State<ThemeColorListener> {
   late LightUiColors _lightUiColors;
   @override
   void initState() {
-    _darkUiColors = const DarkUiColors(AppThemeColor.deepPurple);
-    _lightUiColors = const LightUiColors(AppThemeColor.deepPurple);
+    _darkUiColors = const DarkUiColors(AppThemeColor.blue);
+    _lightUiColors = const LightUiColors(AppThemeColor.blue);
 
     super.initState();
   }
@@ -48,7 +48,7 @@ class _ThemeColorListenerState extends State<ThemeColorListener> {
   @override
   Widget build(BuildContext context) {
     return UiColorProvider(
-      uiColors: _lightUiColors,
+      uiColors: _darkUiColors,
       child: widget.child,
     );
   }

@@ -73,7 +73,7 @@ class _AppNavigationRailState extends State<AppNavigationRail> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          Image.asset(Assets.enSplashScreenLogo, height: 45),
+          Image.asset(Assets.nrbLogo, height: 45),
           Column(children: [
             for (final (index, button) in _buttons.indexed)
               Padding(
@@ -117,10 +117,11 @@ class _AppNavigationRailState extends State<AppNavigationRail> {
                                   button.value, widget.currentTab),
                             ),
                           ),
-                          AppText(
-                            text: button.label,
-                            gradient: _getSelectedColor(
-                                button.value, widget.currentTab),
+                          Text(
+                            button.label,
+                            style: TextStyles.bodyMedium.copyWith(
+                                color: _getSelectedTextColor(
+                                    button.value, widget.currentTab)),
                           )
                         ],
                       ),
@@ -132,6 +133,12 @@ class _AppNavigationRailState extends State<AppNavigationRail> {
         ],
       ),
     );
+  }
+
+  Color _getSelectedTextColor(BottomBarTab value, BottomBarTab currentTab) {
+    return value == widget.currentTab
+        ? context.uiColors.primary
+        : AppColors.greyscale[500]!;
   }
 
   LinearGradient? _getSelectedColor(

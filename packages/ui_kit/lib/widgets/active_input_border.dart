@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ui_kit/ui_kit.dart';
 
 class ActiveInputBorder extends StatelessWidget {
-  const ActiveInputBorder({super.key, 
+  const ActiveInputBorder({
+    super.key,
     required this.child,
     required this.isActive,
   });
@@ -18,7 +19,7 @@ class ActiveInputBorder extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: isActive ? context.uiColors.primary : Colors.transparent,
-          width: 2,
+          width: 3,
         ),
       ),
       child: child,

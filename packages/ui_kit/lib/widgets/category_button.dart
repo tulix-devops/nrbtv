@@ -57,7 +57,7 @@ class CategoryButtonState extends State<CategoryButton>
 
   Color getCategoryColor() {
     if (widget.selection.isHovering) {
-      return context.uiColors.onSurface;
+      return AppColors.greyscale[700]!;
     }
 
     if (widget.selection.isSelected) {
@@ -68,7 +68,7 @@ class CategoryButtonState extends State<CategoryButton>
   }
 
   Color getTextColor() {
-    return context.uiColors.onPrimary;
+    return context.uiColors.surface;
   }
 
   @override

@@ -126,7 +126,7 @@ class __ViewState extends State<_View> {
                         left: MediaQuery.sizeOf(context).width / 1.65),
                     child: Center(
                       child: Image.asset(
-                        Assets.enSplashScreenLogo,
+                        Assets.nrbLogo,
                         height: 40,
                         width: 60,
                       ),
