@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nrbtv/src/bloc/content_cubit/content_cubit.dart';
 import 'package:nrbtv/src/ui/pages/home/phone_widgets/widgets.dart';
 import 'package:nrbtv/src/ui/pages/pages.dart';
+import 'package:nrbtv/src/ui/widgets/app_video_player/mobile_player_container.dart';
 import 'package:nrbtv/src/ui/widgets/widgets.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:nrbtv/src/core/core.dart';
@@ -33,8 +34,13 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ContentCubit, ContentState>(
-      buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
+        final bool isLoading =
+            state.homePageContent == null || state.homePageContent!.isEmpty;
+        print(
+          state.homePageContent,
+        );
+
         return AppStatusWidget(
           status: state.homePageStatus,
           loaderWidget: const Center(
@@ -55,14 +61,45 @@ class _HomePageState extends State<HomePage> {
             child: CustomScrollView(
               controller: _controller,
               slivers: [
+                SliverPadding(
+                  padding: const EdgeInsets.only(
+                      left: 12, right: 12, top: 38, bottom: 12),
+                  sliver: SliverToBoxAdapter(
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 130,
+                          height: 60,
+                          child: Image.asset(Assets.nrbLogo),
+                        ),
+                        const Spacer(),
+                        InkWell(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(48)),
+                          child: Icon(
+                            Icons.keyboard_arrow_down,
+                            size: 40,
+                            color: context.uiColors.onSurface,
+                          ),
+                          onTap: () {},
+                        )
+                      ],
+                    ),
+                  ),
+                ),
                 // if (!context.isTv)
                 //   BackdropAppBar(onPressed: () {
                 //     context.pushNamed(ProvidedSearchPage.path);
                 //   }),
                 SliverList.list(
                   children: [
-                    const DeviceWrapper(
-                      widget: _HeroSection(),
+                    DeviceWrapper(
+                      widget: isLoading
+                          ? const Center(child: AppLoadingIndicator(size: 70))
+                          : _HeroSection(
+                              video: state
+                                  .homePageContent!.entries.first.value.first,
+                            ),
                       tvWidget: Margins.vertical20,
                     ),
                     DeviceWrapper(

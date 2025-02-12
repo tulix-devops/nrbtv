@@ -101,8 +101,6 @@ class UiSliderIndicatorState extends State<UiSliderIndicator> {
 
   Color _getNextButtonColor() {
     final int currentPage = widget.pageController.page!.toInt();
-    print('currentpage $currentPage');
-    print('slide count ${widget.sliderCount}');
     return widget.sliderCount - 1 == currentPage
         ? AppColors.greyscale[500]!
         : context.uiColors.primary;
