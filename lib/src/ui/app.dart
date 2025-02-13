@@ -54,8 +54,8 @@ class _AppState extends State<App> {
                 ),
                 localizationsDelegates: AppLocalizations.localizationsDelegates,
                 supportedLocales: AppLocalizations.supportedLocales,
-                themeMode: ThemeMode.light,
-                darkTheme: _getTheme(context, Brightness.light),
+                themeMode: ThemeMode.dark,
+                darkTheme: _getTheme(context, Brightness.dark),
                 initialRoute: SplashPage.path,
                 onGenerateRoute: (settings) =>
                     onGenerateRoute(settings, context),

@@ -1,6 +1,5 @@
 import 'package:commons/commons.dart';
 import 'package:nrbtv/src/data/models/content/content.dart';
-import 'package:nrbtv/src/ui/pages/search/search_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nrbtv/src/bloc/content_cubit/content_cubit.dart';
@@ -61,32 +60,6 @@ class _HomePageState extends State<HomePage> {
             child: CustomScrollView(
               controller: _controller,
               slivers: [
-                SliverPadding(
-                  padding: const EdgeInsets.only(
-                      left: 12, right: 12, top: 38, bottom: 12),
-                  sliver: SliverToBoxAdapter(
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: 130,
-                          height: 60,
-                          child: Image.asset(Assets.nrbLogo),
-                        ),
-                        const Spacer(),
-                        InkWell(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(48)),
-                          child: Icon(
-                            Icons.keyboard_arrow_down,
-                            size: 40,
-                            color: context.uiColors.onSurface,
-                          ),
-                          onTap: () {},
-                        )
-                      ],
-                    ),
-                  ),
-                ),
                 // if (!context.isTv)
                 //   BackdropAppBar(onPressed: () {
                 //     context.pushNamed(ProvidedSearchPage.path);
@@ -95,16 +68,22 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     DeviceWrapper(
                       widget: isLoading
-                          ? const Center(child: AppLoadingIndicator(size: 70))
-                          : _HeroSection(
-                              video: state
-                                  .homePageContent!.entries.first.value.first,
+                          ? const SizedBox.shrink()
+                          : Padding(
+                              padding: const EdgeInsets.only(
+                                bottom: 18,
+                              ),
+                              child: _HeroSection(
+                                video: state
+                                    .homePageContent!.entries.first.value.first,
+                              ),
                             ),
                       tvWidget: Margins.vertical20,
                     ),
                     DeviceWrapper(
-                      widget: HomePhoneView(
-                        controller: _controller,
+                      widget: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: HomePhoneDvr(),
                       ),
                       tvWidget: HomeTvView(
                         controller: _controller,

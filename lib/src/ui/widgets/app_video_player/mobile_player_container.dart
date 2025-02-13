@@ -21,6 +21,11 @@ class _MobilePlayerContainerState extends State<MobilePlayerContainer> {
 
   @override
   void initState() {
+    super.initState();
+    _initializePlayer();
+  }
+
+  Future<void> _initializePlayer() async {
     final dataSource = BetterPlayerDataSource.network(
       widget.video.sources.getPreferredVideoSource() ?? '',
       liveStream: false,
@@ -38,12 +43,12 @@ class _MobilePlayerContainerState extends State<MobilePlayerContainer> {
       fit: BoxFit.cover,
     );
 
-    setState(() {
-      controller = BetterPlayerController(betterPlayerConfiguration);
-      controller.setupDataSource(dataSource);
-    });
+    controller = BetterPlayerController(betterPlayerConfiguration);
+    await controller.setupDataSource(dataSource);
 
-    super.initState();
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   BetterPlayerControlsConfiguration _createControlsConfiguration() {
@@ -54,15 +59,26 @@ class _MobilePlayerContainerState extends State<MobilePlayerContainer> {
       customControlsBuilder: (controller, onPlayerVisibilityChanged) =>
           CustomPlayerControl(
         controller: controller,
+        video: widget.video,
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return BetterPlayer(
-      controller: controller,
-    );
+    return controller.isVideoInitialized() ?? false
+        ? BetterPlayer(
+            controller: controller,
+          )
+        : Container(
+            width: double.infinity,
+            height: 250,
+            color: context.uiColors.surface,
+            child: const Center(
+                child: AppLoadingIndicator(
+              size: 60,
+            )),
+          );
   }
 }
 
@@ -72,7 +88,10 @@ class CustomPlayerControl extends StatefulWidget {
   const CustomPlayerControl({
     super.key,
     required this.controller,
+    required this.video,
   });
+
+  final ContentModel video;
 
   @override
   State<CustomPlayerControl> createState() => _CustomPlayerControlState();
@@ -113,7 +132,10 @@ class _CustomPlayerControlState extends State<CustomPlayerControl> {
                   opacity: state.isVisible ? 1.0 : 0.0,
                   curve: Curves.ease,
                   duration: const Duration(milliseconds: 300),
-                  child: PlayerContorls(controller: widget.controller),
+                  child: PlayerContorls(
+                    controller: widget.controller,
+                    video: widget.video,
+                  ),
                 ),
               ),
             ),
@@ -125,9 +147,11 @@ class _CustomPlayerControlState extends State<CustomPlayerControl> {
 }
 
 class PlayerContorls extends StatefulWidget {
-  const PlayerContorls({super.key, required this.controller});
+  const PlayerContorls(
+      {super.key, required this.controller, required this.video});
 
   final BetterPlayerController controller;
+  final ContentModel video;
 
   @override
   State<PlayerContorls> createState() => _PlayerContorlsState();
@@ -164,10 +188,22 @@ class _PlayerContorlsState extends State<PlayerContorls> {
                     ),
                   ),
                   // TODO: handle ndvr when we have data
-                  // Flexible(
-                  //   flex: 7,
-                  //   child: getVodSeekbar(context),
-                  // )
+                  Flexible(
+                    flex: 15,
+                    child: getVodSeekbar(context),
+                  ),
+                  Flexible(
+                    flex: 2,
+                    child: VideoButton(
+                        onPressed: (context) {
+                          context.pushNamed(VideoPlayerPage.path, extra: {
+                            'contentModel': widget.video,
+                            'isTrailer': false
+                          });
+                        },
+                        icon: Assets.videoFullScreen,
+                        focusNode: FocusNode()),
+                  )
                 ],
               ),
             ),
