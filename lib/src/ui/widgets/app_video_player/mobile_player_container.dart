@@ -25,6 +25,12 @@ class _MobilePlayerContainerState extends State<MobilePlayerContainer> {
     _initializePlayer();
   }
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
   Future<void> _initializePlayer() async {
     final dataSource = BetterPlayerDataSource.network(
       widget.video.sources.getPreferredVideoSource() ?? '',
@@ -188,10 +194,10 @@ class _PlayerContorlsState extends State<PlayerContorls> {
                     ),
                   ),
                   // TODO: handle ndvr when we have data
-                  Flexible(
-                    flex: 15,
-                    child: getVodSeekbar(context),
-                  ),
+                  // Flexible(
+                  //   flex: 15,
+                  //   child: getVodSeekbar(context),
+                  // ),
                   Flexible(
                     flex: 2,
                     child: VideoButton(

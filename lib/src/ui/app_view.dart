@@ -1,19 +1,14 @@
 import 'package:app_focus/app_focus.dart';
 import 'package:commons/commons.dart';
 import 'package:nrbtv/src/index.dart';
-import 'package:nrbtv/src/ui/pages/vod/vod_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nrbtv/src/bloc/bloc.dart';
 import 'package:nrbtv/src/bloc/content_cubit/content_cubit.dart';
 import 'package:nrbtv/src/bloc/search_page_filter/search_filter_bloc.dart';
-import 'package:nrbtv/src/data/data.dart';
-import 'package:nrbtv/src/ui/pages/pages.dart';
 import 'package:local_storage/local_storage.dart';
 
 import 'pages/content/content_page.dart';
-import 'widgets/widgets.dart';
 
 class AppView extends StatefulWidget {
   static const path = '/home';

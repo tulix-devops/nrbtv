@@ -2,8 +2,6 @@ import 'package:nrbtv/src/bloc/content_cubit/content_cubit.dart';
 import 'package:nrbtv/src/data/models/content/content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nrbtv/src/bloc/bloc.dart';
-import 'package:nrbtv/src/data/models/vod/vod_model.dart';
 import 'package:ui_kit/ui_kit.dart';
 
 class ContentListView extends StatefulWidget {
