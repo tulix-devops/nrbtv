@@ -1,4 +1,6 @@
 import 'package:commons/commons.dart';
+import 'package:nrbtv/src/bloc/epg_cubit/epg_cubit.dart';
+import 'package:nrbtv/src/data/models/content/tv_schedule_model.dart';
 import 'package:nrbtv/src/ui/pages/search/search_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -181,12 +183,16 @@ CupertinoPageRoute<dynamic> onGenerateRoute(
 
       case VideoPlayerPage.path:
         final args = settings.arguments as Map<String, dynamic>;
-        final content = args['contentModel'] as ContentModel;
+        final content = args['tvScheduleModel'] as TvScheduleModel;
         final isTrailer = args['isTrailer'] as bool;
+        final epgCubit = args['epgCubit'] as EpgCubit;
 
-        page = VideoPlayerPage(
-          isTrailer: isTrailer,
-          video: content,
+        page = BlocProvider.value(
+          value: epgCubit,
+          child: VideoPlayerPage(
+            isTrailer: isTrailer,
+            video: content,
+          ),
         );
 
       case SubscribePage.path:

@@ -1,5 +1,5 @@
 // const String _url = 'https://208.79.153.183/api';
-const String _url = 'https://eshghtv.tulix.net/api';
+const String _url = 'https://nrbtv.tulix.net/api';
 // const String _url = 'http://192.168.1.154:8000/api';
 
 class APIList {
@@ -16,6 +16,9 @@ class APIList {
   static const String homePageList = '$_url/videos/home-page';
   static const String vodList = '$_url/videos';
   static const String vodSearch = '$_url/videos/search';
+
+  static const String getEpg = '$_url/content/epg';
+  static const String getLive = '$_url/content';
 
   // VOD
   static const String countryList = '$_url/countries';

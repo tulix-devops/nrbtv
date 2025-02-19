@@ -147,7 +147,7 @@ class AppBlocProvider extends StatelessWidget {
             context.read<AppCubit>().initUser();
 
             if (state.isAuthenticated) {
-              context.read<AppCubit>().changeTab(BottomBarTab.home);
+              context.read<AppCubit>().changeTab(BottomBarTab.archive);
               context.goNamed(AppView.path);
             }
 

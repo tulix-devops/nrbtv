@@ -49,7 +49,7 @@ enum BottomBarType {
   black,
 }
 
-enum BottomBarTab { search, home, live, vod, series, account }
+enum BottomBarTab { live, archive, account }
 
 enum AuthStatus { authenticated, unauthenticated }
 

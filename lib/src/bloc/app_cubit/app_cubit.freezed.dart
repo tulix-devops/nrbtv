@@ -330,7 +330,7 @@ class __$$AppStateImplCopyWithImpl<$Res>
 class _$AppStateImpl extends _AppState with DiagnosticableTreeMixin {
   const _$AppStateImpl(
       {this.authStatus = AuthStatus.unauthenticated,
-      this.currentTab = BottomBarTab.home,
+      this.currentTab = BottomBarTab.archive,
       this.themeColor = AppThemeColor.blue,
       this.isOnboardingComplete = false,
       this.hasOverlay = false,

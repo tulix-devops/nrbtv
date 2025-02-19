@@ -29,7 +29,7 @@ mixin _$VideoPlayerState {
   bool get isAdDone => throw _privateConstructorUsedError;
   (bool, String) get liveStatus => throw _privateConstructorUsedError;
   AdModel? get adModel => throw _privateConstructorUsedError;
-  ContentModel? get video => throw _privateConstructorUsedError;
+  TvScheduleModel? get video => throw _privateConstructorUsedError;
   ({double currentVolume, double previousVolume}) get videoVolume =>
       throw _privateConstructorUsedError;
 
@@ -60,7 +60,7 @@ abstract class $VideoPlayerStateCopyWith<$Res> {
       bool isAdDone,
       (bool, String) liveStatus,
       AdModel? adModel,
-      ContentModel? video,
+      TvScheduleModel? video,
       ({double currentVolume, double previousVolume}) videoVolume});
 }
 
@@ -151,7 +151,7 @@ class _$VideoPlayerStateCopyWithImpl<$Res, $Val extends VideoPlayerState>
       video: freezed == video
           ? _value.video
           : video // ignore: cast_nullable_to_non_nullable
-              as ContentModel?,
+              as TvScheduleModel?,
       videoVolume: null == videoVolume
           ? _value.videoVolume
           : videoVolume // ignore: cast_nullable_to_non_nullable
@@ -182,7 +182,7 @@ abstract class _$$VideoPlayerStateImplCopyWith<$Res>
       bool isAdDone,
       (bool, String) liveStatus,
       AdModel? adModel,
-      ContentModel? video,
+      TvScheduleModel? video,
       ({double currentVolume, double previousVolume}) videoVolume});
 }
 
@@ -271,7 +271,7 @@ class __$$VideoPlayerStateImplCopyWithImpl<$Res>
       video: freezed == video
           ? _value.video
           : video // ignore: cast_nullable_to_non_nullable
-              as ContentModel?,
+              as TvScheduleModel?,
       videoVolume: null == videoVolume
           ? _value.videoVolume
           : videoVolume // ignore: cast_nullable_to_non_nullable
@@ -341,7 +341,7 @@ class _$VideoPlayerStateImpl implements _VideoPlayerState {
   final AdModel? adModel;
   @override
   @JsonKey()
-  final ContentModel? video;
+  final TvScheduleModel? video;
   @override
   @JsonKey()
   final ({double currentVolume, double previousVolume}) videoVolume;
@@ -427,7 +427,7 @@ abstract class _VideoPlayerState implements VideoPlayerState {
           final bool isAdDone,
           final (bool, String) liveStatus,
           final AdModel? adModel,
-          final ContentModel? video,
+          final TvScheduleModel? video,
           final ({double currentVolume, double previousVolume}) videoVolume}) =
       _$VideoPlayerStateImpl;
 
@@ -458,7 +458,7 @@ abstract class _VideoPlayerState implements VideoPlayerState {
   @override
   AdModel? get adModel;
   @override
-  ContentModel? get video;
+  TvScheduleModel? get video;
   @override
   ({double currentVolume, double previousVolume}) get videoVolume;
 

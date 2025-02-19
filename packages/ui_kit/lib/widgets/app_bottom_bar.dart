@@ -21,8 +21,8 @@ class AppBottomBar extends StatefulWidget {
 class _AppBottomBarState extends State<AppBottomBar> {
   late final Iterable<({String label, String icon, BottomBarTab value})>
       _buttons = [
-    (label: 'VOD', icon: Assets.vod, value: BottomBarTab.vod),
-    (label: 'Home', icon: Assets.home, value: BottomBarTab.home),
+    (label: 'Live', icon: Assets.vod, value: BottomBarTab.live),
+    (label: 'Archive', icon: Assets.home, value: BottomBarTab.archive),
     (label: 'Account', icon: Assets.profileLight, value: BottomBarTab.account),
   ];
 

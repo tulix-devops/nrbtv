@@ -1,5 +1,8 @@
 import 'package:app_focus/app_focus.dart';
 import 'package:commons/commons.dart';
+import 'package:nrbtv/src/bloc/epg_cubit/epg_cubit.dart';
+import 'package:nrbtv/src/data/data_sources/live_datasource/live_data_source.dart';
+import 'package:nrbtv/src/data/repositories/epg/epg_repository.dart';
 import 'package:nrbtv/src/index.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -25,30 +28,25 @@ class _AppViewState extends State<AppView> {
   @override
   void initState() {
     pages = {
-      BottomBarTab.search.index: BlocProvider<SearchFilterBloc>(
-        key: const ValueKey('search'),
-        create: (ctx) {
-          final ContentRepository repo = ContentRepositoryImpl(
-              contentRemoteRepository:
-                  ContentRemoteDataSource(ctx.read<CustomHTTPClient>()));
-          return SearchFilterBloc(contentRepository: repo);
-        },
-        child: const TvSearchPage(),
-      ),
-      BottomBarTab.home.index: MultiBlocProvider(
+      // BottomBarTab.search.index: BlocProvider<SearchFilterBloc>(
+      //   key: const ValueKey('search'),
+      //   create: (ctx) {
+      //     final ContentRepository repo = ContentRepositoryImpl(
+      //         contentRemoteRepository:
+      //             ContentRemoteDataSource(ctx.read<CustomHTTPClient>()));
+      //     return SearchFilterBloc(contentRepository: repo);
+      //   },
+      //   child: const TvSearchPage(),
+      // ),
+      BottomBarTab.archive.index: MultiBlocProvider(
         key: const ValueKey('home'),
         providers: [
-          BlocProvider<ContentCubit>(
-            create: (context) => ContentCubit(
-              contentLocalDataSource: ContentLocalDataSource(
-                context.read<LocalStorage>(),
+          BlocProvider<EpgCubit>(
+            create: (context) => EpgCubit(
+              repo: EpgRepositoryImpl(
+                dataSource: LiveDataSource(context.read<CustomHTTPClient>()),
               ),
-              contentRemoteRepository: ContentRepositoryImpl(
-                contentRemoteRepository:
-                    ContentRemoteDataSource(context.read<CustomHTTPClient>()),
-              ),
-            ),
-            //..getCollection()
+            )..getEpg(4),
           ),
         ],
         child: const HomePage(),
@@ -69,52 +67,15 @@ class _AppViewState extends State<AppView> {
         },
         child: const ProfilePage(),
       ),
-      BottomBarTab.live.index: BlocProvider<ContentCubit>(
+      BottomBarTab.live.index: BlocProvider<EpgCubit>(
         key: const ValueKey('live'),
-        create: (ctx) => ContentCubit(
-          contentLocalDataSource: ContentLocalDataSource(
-            context.read<LocalStorage>(),
+        create: (ctx) => EpgCubit(
+          repo: EpgRepositoryImpl(
+            dataSource: LiveDataSource(context.read<CustomHTTPClient>()),
           ),
-          contentRemoteRepository: ContentRepositoryImpl(
-            contentRemoteRepository: ContentRemoteDataSource(
-              ctx.read<CustomHTTPClient>(),
-            ),
-          ),
-        ),
+        )..getLive(),
         child: ContentPage(
           contentTypeIndex: ContentType.channel.value,
-        ),
-      ),
-      BottomBarTab.vod.index: BlocProvider<ContentCubit>(
-        key: const ValueKey('vod'),
-        create: (context) => ContentCubit(
-          contentLocalDataSource: ContentLocalDataSource(
-            context.read<LocalStorage>(),
-          ),
-          contentRemoteRepository: ContentRepositoryImpl(
-            contentRemoteRepository: ContentRemoteDataSource(
-              context.read<CustomHTTPClient>(),
-            ),
-          ),
-        ),
-        child: ContentPage(
-          contentTypeIndex: ContentType.movie.value,
-        ),
-      ),
-      BottomBarTab.series.index: BlocProvider<ContentCubit>(
-        key: const ValueKey('series'),
-        create: (context) => ContentCubit(
-          contentLocalDataSource: ContentLocalDataSource(
-            context.read<LocalStorage>(),
-          ),
-          contentRemoteRepository: ContentRepositoryImpl(
-            contentRemoteRepository: ContentRemoteDataSource(
-              context.read<CustomHTTPClient>(),
-            ),
-          ),
-        ),
-        child: ContentPage(
-          contentTypeIndex: ContentType.series.value,
         ),
       ),
     };

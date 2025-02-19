@@ -1,10 +1,11 @@
+import 'package:nrbtv/src/bloc/epg_cubit/epg_cubit.dart';
 import 'package:nrbtv/src/data/models/content/seasons_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nrbtv/src/data/models/content/tv_schedule_model.dart';
 import 'package:river_player/river_player.dart';
 import 'package:ui_kit/ui_kit.dart';
-import 'package:nrbtv/src/data/models/content/content.dart';
 import 'package:nrbtv/src/index.dart';
 import 'package:commons/commons.dart';
 import 'package:nrbtv/src/ui/widgets/app_video_player/widgets/black_background.dart';
@@ -124,8 +125,8 @@ class _VodFullScreenState extends State<VodFullScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Map<int, SeasonModel>? seriesData =
-        context.read<VideoPlayerCubit>().state.video?.seasons;
+    final Map<String, List<TvScheduleModel>>? seriesData =
+        context.read<EpgCubit>().state.epgContent;
     final bool isSeriesAvailable = seriesData != null && seriesData.isNotEmpty;
 
     final Positioned blackBackground = Positioned.fill(
@@ -154,13 +155,13 @@ class _VodFullScreenState extends State<VodFullScreen> {
           alignment: Alignment.center,
           children: [
             if (state.isVisible) const BlackBackground(),
-            if (isSeasonsOpen && isSeriesAvailable) ...[
-              blackBackground,
-              Dvr(
-                controller: widget.controller,
-                callback: _closeDvr,
-              ),
-            ],
+            // if (isSeasonsOpen && isSeriesAvailable) ...[
+            //   blackBackground,
+            //   // Dvr(
+            //   //   controller: widget.controller,
+            //   //   callback: _closeDvr,
+            //   // ),
+            // ],
             if (!isSeasonsOpen) ...[
               Positioned(
                 left: 60,
@@ -173,19 +174,19 @@ class _VodFullScreenState extends State<VodFullScreen> {
                   focusNode: arrowBackFocus,
                 ),
               ),
-              if (isSeriesAvailable)
-                Positioned(
-                  right: 60,
-                  top: 20,
-                  child: VideoButton(
-                    focusNode: dvrButtonFocus,
-                    icon: Assets.moreCircles,
-                    onPressed: (_) {
-                      openDvr();
-                      context.read<VideoPlayerCubit>().changeVisibility(true);
-                    },
-                  ),
-                ),
+              // if (isSeriesAvailable)
+              //   Positioned(
+              //     right: 60,
+              //     top: 20,
+              //     child: VideoButton(
+              //       focusNode: dvrButtonFocus,
+              //       icon: Assets.moreCircles,
+              //       onPressed: (_) {
+              //         openDvr();
+              //         context.read<VideoPlayerCubit>().changeVisibility(true);
+              //       },
+              //     ),
+              //   ),
               Positioned(
                 left: 10,
                 right: 10,

@@ -49,6 +49,7 @@ class _LiveFullscreenState extends State<LiveFullscreen> {
 
   @override
   void initState() {
+    print('123');
     playPauseFocus.requestFocus();
     super.initState();
   }

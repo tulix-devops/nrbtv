@@ -46,7 +46,7 @@ mixin AuthFormMixin on Cubit<AuthState> {
   String? _validatePassword(String value) {
     if (value.isEmpty) return null;
 
-    return value.length < 8 ? 'Type more than 8 characters' : null;
+    return value.length < 6 ? 'Type more than 8 characters' : null;
   }
 }
 

@@ -5,7 +5,7 @@ class _HeroSection extends StatefulWidget {
     required this.video,
   });
 
-  final ContentModel video;
+  final TvScheduleModel video;
 
   @override
   State<_HeroSection> createState() => _HeroSectionState();
@@ -15,6 +15,7 @@ class _HeroSectionState extends State<_HeroSection> {
   @override
   Widget build(BuildContext context) {
     return MobilePlayerContainer(
+      key: ValueKey(widget.video.link),
       video: widget.video,
     );
   }

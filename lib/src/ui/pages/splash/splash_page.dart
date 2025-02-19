@@ -44,14 +44,8 @@ class _SplashPageState extends State<SplashPage> {
         .init()
         .then((value) => context.read<AppCubit>().init())
         .then((_) {
-      final bool isAuthenticated =
-          context.read<AppCubit>().state.isAuthenticated;
-      if (isAuthenticated) {
-        Navigator.of(context).pushReplacementNamed(AppView.path);
-        return;
-      }
-
-      Navigator.of(context).pushReplacementNamed(LoginPage.path);
+      Navigator.of(context).pushReplacementNamed(AppView.path);
+      return;
     }).then((_) => context.read<LocalStorage>().delete(CacheKeys.contentList));
 
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,

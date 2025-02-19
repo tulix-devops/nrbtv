@@ -44,7 +44,7 @@ class TvLoginPage extends StatelessWidget {
           ctx.l.loginSuccess,
         );
 
-        ctx.read<AppCubit>().changeTab(BottomBarTab.home);
+        ctx.read<AppCubit>().changeTab(BottomBarTab.archive);
         ctx.goNamed(AppView.path);
 
       case FormStatus.failure:

@@ -23,9 +23,9 @@ class _AppNavigationRailState extends State<AppNavigationRail> {
     (
       label: 'Search',
       icon: Assets.searchNavigationIcon,
-      value: BottomBarTab.search
+      value: BottomBarTab.archive
     ),
-    (label: 'Home', icon: Assets.homeIcon, value: BottomBarTab.home),
+    (label: 'Home', icon: Assets.homeIcon, value: BottomBarTab.archive),
     (label: 'Live', icon: Assets.liveIcon, value: BottomBarTab.live),
     // (label: 'VOD', icon: Assets.videoIcon, value: BottomBarTab.vod),
     // (label: 'Series', icon: Assets.tvShowIcon, value: BottomBarTab.series),

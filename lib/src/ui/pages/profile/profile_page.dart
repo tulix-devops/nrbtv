@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:commons/commons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:ui_kit/ui_kit.dart';
@@ -66,7 +65,9 @@ class _BodyState extends State<_Body> {
                 delegate: SliverChildListDelegate([
                   if (isAuthenticated)
                     DeviceWrapper(
-                      widget: _UserInfoRow(profileInfo: state.userInfo),
+                      widget: Column(children: [
+                        _UserInfoRow(profileInfo: state.userInfo)
+                      ]),
                       tvWidget: const SizedBox.shrink(),
                     ),
                   const SizedBox(height: 24),
@@ -117,21 +118,46 @@ class _ButtonListState extends State<_ButtonList> {
     );
   }
 
-  final FocusNode focusNodes = FocusNode();
+  final FocusNode focusNode = FocusNode();
   @override
   void initState() {
-    focusNodes.requestFocus();
+    focusNode.requestFocus();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: context.read<AppCubit>(),
-      child: _LogoutButton(
-        focusNode: focusNodes,
+    final Iterable<_ButtonData> categories = [
+      if (!widget.isAuthenticated)
+        _ButtonData(
+          icon: Assets.videoLock,
+          label: 'Log In',
+          onPressed: () => context.pushNamed(LoginPage.path),
+        ),
+    ];
+
+    return Column(children: [
+      ...List.generate(
+        categories.length,
+        (index) => _Category(
+          focusNode: focusNode,
+          leadingIcon: categories.elementAt(index).icon,
+          label: categories.elementAt(index).label,
+          isAuthenticated: categories.elementAt(index).isClickable,
+          action: const _Icon(),
+          onPressed: (context) {
+            categories.elementAt(index).onPressed();
+          },
+        ),
       ),
-    );
+      if (widget.isAuthenticated)
+        BlocProvider.value(
+          value: context.read<AppCubit>(),
+          child: _LogoutButton(
+            focusNode: FocusNode(),
+          ),
+        ),
+    ]);
   }
 }
 
@@ -254,7 +280,7 @@ class _UserInfoRow extends StatelessWidget {
             Text(
               profileInfo!.email,
               style: TextStyles.bodyMediumMedium.surface(context),
-            )
+            ),
           ],
         ),
       ],

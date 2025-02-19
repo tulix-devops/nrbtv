@@ -6,6 +6,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:nrbtv/src/data/data.dart';
 import 'package:nrbtv/src/data/models/ad_model/ad_model.dart';
 import 'package:nrbtv/src/data/models/content/content.dart';
+import 'package:nrbtv/src/data/models/content/tv_schedule_model.dart';
 
 part 'video_player_state.dart';
 part 'video_player_cubit.freezed.dart';
@@ -110,7 +111,7 @@ class VideoPlayerCubit extends Cubit<VideoPlayerState> {
     emit(state.copyWith(videoIsSeekingForward: status));
   }
 
-  void setVideo(ContentModel video) {
+  void setVideo(TvScheduleModel video) {
     emit(state.copyWith(video: video));
   }
 

@@ -16,7 +16,7 @@ class VideoPlayerState with _$VideoPlayerState {
     @Default(false) bool isAdDone,
     @Default((false, "0.00")) (bool isLive, String minutes) liveStatus,
     @Default(null) AdModel? adModel,
-    @Default(null) ContentModel? video,
+    @Default(null) TvScheduleModel? video,
     @Default((currentVolume: 1.0, previousVolume: 1.0))
     ({double currentVolume, double previousVolume}) videoVolume,
   }) = _VideoPlayerState;

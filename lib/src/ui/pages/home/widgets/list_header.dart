@@ -40,5 +40,5 @@ void _onPressed(BuildContext context, String headerTitle) {
     },
   );
 
-  context.read<AppCubit>().changeTab(BottomBarTab.vod);
+  context.read<AppCubit>().changeTab(BottomBarTab.live);
 }

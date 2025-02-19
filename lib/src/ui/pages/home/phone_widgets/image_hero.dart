@@ -158,7 +158,10 @@ class _HeroContent extends StatelessWidget {
           onPressed: () {
             context.pushNamed(
               VideoPlayerPage.name,
-              extra: {'contentModel': channel, 'isTrailer': false},
+              extra: {
+                'contentModel': channel,
+                'isTrailer': false,
+              },
             );
             context.read<ContentCubit>().setSelectedContent(channel);
           },

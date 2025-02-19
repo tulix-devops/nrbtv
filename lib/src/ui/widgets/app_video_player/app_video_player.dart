@@ -6,11 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nrbtv/src/bloc/bloc.dart';
+import 'package:nrbtv/src/data/models/content/tv_schedule_model.dart';
 import 'package:river_player/river_player.dart';
 import 'package:nrbtv/src/core/core.dart';
 
 import 'package:ui_kit/ui_kit.dart';
-import 'package:nrbtv/src/data/models/content/content.dart';
 import 'package:nrbtv/src/ui/widgets/app_video_player/screens/live_fullscreen.dart';
 import 'package:nrbtv/src/ui/widgets/app_video_player/screens/vod_fullscreen.dart';
 
@@ -30,7 +30,7 @@ class AppVideoPlayer extends StatefulWidget {
 
   final String image;
   final String link;
-  final ContentModel video;
+  final TvScheduleModel video;
 
   @override
   State<AppVideoPlayer> createState() => _AppVideoPlayerState();
@@ -88,7 +88,7 @@ class _AppVideoPlayerState extends State<AppVideoPlayer> {
 
     final dataSource = BetterPlayerDataSource.network(
       showAd ? cubit.state.adModel!.ad.vast! : widget.link,
-      liveStream: widget.video.typeId == ContentType.channel.value,
+      liveStream: widget.video.id == 21,
       cacheConfiguration: const BetterPlayerCacheConfiguration(useCache: false),
     );
 

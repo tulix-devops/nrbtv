@@ -1,5 +1,4 @@
 import 'package:commons/commons.dart';
-import 'package:nrbtv/src/data/data_sources/content/content_remote_data_source.dart';
 import 'package:nrbtv/src/data/models/content/content.dart';
 import 'package:nrbtv/src/data/models/content/content_type_list_model.dart';
 import 'package:nrbtv/src/data/params/search_params.dart';

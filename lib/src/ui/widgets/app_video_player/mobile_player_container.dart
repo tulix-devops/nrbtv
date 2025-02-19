@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nrbtv/src/data/models/content/content.dart';
+import 'package:nrbtv/src/bloc/epg_cubit/epg_cubit.dart';
+import 'package:nrbtv/src/data/models/content/tv_schedule_model.dart';
 import 'package:nrbtv/src/index.dart';
 import 'package:nrbtv/src/ui/widgets/app_video_player/widgets/black_background.dart';
 import 'package:river_player/river_player.dart';
@@ -8,9 +9,11 @@ import 'package:ui_kit/ui_kit.dart';
 import 'package:commons/commons.dart';
 
 class MobilePlayerContainer extends StatefulWidget {
-  const MobilePlayerContainer({super.key, required this.video});
+  const MobilePlayerContainer(
+      {super.key, required this.video, this.isLive = false});
 
-  final ContentModel video;
+  final TvScheduleModel video;
+  final bool isLive;
 
   @override
   State<MobilePlayerContainer> createState() => _MobilePlayerContainerState();
@@ -27,13 +30,12 @@ class _MobilePlayerContainerState extends State<MobilePlayerContainer> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 
   Future<void> _initializePlayer() async {
     final dataSource = BetterPlayerDataSource.network(
-      widget.video.sources.getPreferredVideoSource() ?? '',
+      widget.video.link,
       liveStream: false,
       cacheConfiguration: const BetterPlayerCacheConfiguration(useCache: false),
     );
@@ -65,6 +67,7 @@ class _MobilePlayerContainerState extends State<MobilePlayerContainer> {
       customControlsBuilder: (controller, onPlayerVisibilityChanged) =>
           CustomPlayerControl(
         controller: controller,
+        isLive: widget.isLive,
         video: widget.video,
       ),
     );
@@ -94,10 +97,12 @@ class CustomPlayerControl extends StatefulWidget {
   const CustomPlayerControl({
     super.key,
     required this.controller,
+    this.isLive = false,
     required this.video,
   });
 
-  final ContentModel video;
+  final TvScheduleModel video;
+  final bool isLive;
 
   @override
   State<CustomPlayerControl> createState() => _CustomPlayerControlState();
@@ -140,6 +145,7 @@ class _CustomPlayerControlState extends State<CustomPlayerControl> {
                   duration: const Duration(milliseconds: 300),
                   child: PlayerContorls(
                     controller: widget.controller,
+                    isLive: widget.isLive,
                     video: widget.video,
                   ),
                 ),
@@ -154,10 +160,14 @@ class _CustomPlayerControlState extends State<CustomPlayerControl> {
 
 class PlayerContorls extends StatefulWidget {
   const PlayerContorls(
-      {super.key, required this.controller, required this.video});
+      {super.key,
+      required this.controller,
+      required this.video,
+      this.isLive = false});
 
   final BetterPlayerController controller;
-  final ContentModel video;
+  final TvScheduleModel video;
+  final bool isLive;
 
   @override
   State<PlayerContorls> createState() => _PlayerContorlsState();
@@ -193,17 +203,21 @@ class _PlayerContorlsState extends State<PlayerContorls> {
                       focusNode: FocusNode(),
                     ),
                   ),
-                  // TODO: handle ndvr when we have data
-                  // Flexible(
-                  //   flex: 15,
-                  //   child: getVodSeekbar(context),
-                  // ),
+                  widget.isLive
+                      ? const Spacer(
+                          flex: 6,
+                        )
+                      : Flexible(
+                          flex: 15,
+                          child: getVodSeekbar(context),
+                        ),
                   Flexible(
                     flex: 2,
                     child: VideoButton(
                         onPressed: (context) {
                           context.pushNamed(VideoPlayerPage.path, extra: {
-                            'contentModel': widget.video,
+                            'tvScheduleModel': widget.video,
+                            'epgCubit': context.read<EpgCubit>(),
                             'isTrailer': false
                           });
                         },

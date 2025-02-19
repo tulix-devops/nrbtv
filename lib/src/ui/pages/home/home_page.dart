@@ -1,8 +1,10 @@
 import 'package:commons/commons.dart';
+import 'package:nrbtv/src/bloc/epg_cubit/epg_cubit.dart';
 import 'package:nrbtv/src/data/models/content/content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nrbtv/src/bloc/content_cubit/content_cubit.dart';
+import 'package:nrbtv/src/data/models/content/tv_schedule_model.dart';
 import 'package:nrbtv/src/ui/pages/home/phone_widgets/widgets.dart';
 import 'package:nrbtv/src/ui/pages/pages.dart';
 import 'package:nrbtv/src/ui/widgets/app_video_player/mobile_player_container.dart';
@@ -25,23 +27,16 @@ class _HomePageState extends State<HomePage> {
   late final ScrollController _controller = ScrollController();
 
   @override
-  void initState() {
-    context.read<ContentCubit>().getHomeContent();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ContentCubit, ContentState>(
+    return BlocBuilder<EpgCubit, EpgState>(
       builder: (context, state) {
-        final bool isLoading =
-            state.homePageContent == null || state.homePageContent!.isEmpty;
-        print(
-          state.homePageContent,
-        );
+        final bool isLoading = state.epgContent == null ||
+            state.epgContent!.isEmpty ||
+            state.selectedDvr == null;
 
+        print('isloading $isLoading');
         return AppStatusWidget(
-          status: state.homePageStatus,
+          status: state.status,
           loaderWidget: const Center(
             child: AppLoadingIndicator(size: 70),
           ),
@@ -54,7 +49,7 @@ class _HomePageState extends State<HomePage> {
           ]),
           widget: RefreshIndicator.adaptive(
             onRefresh: () {
-              context.read<ContentCubit>().getHomeContent();
+              context.read<EpgCubit>().getEpg(4);
               return Future.value();
             },
             child: CustomScrollView(
@@ -73,10 +68,11 @@ class _HomePageState extends State<HomePage> {
                               padding: const EdgeInsets.only(
                                 bottom: 18,
                               ),
-                              child: _HeroSection(
-                                video: state
-                                    .homePageContent!.entries.first.value.first,
-                              ),
+                              child: isLoading
+                                  ? const Center(
+                                      child: CircularProgressIndicator(),
+                                    )
+                                  : _HeroSection(video: state.selectedDvr!),
                             ),
                       tvWidget: Margins.vertical20,
                     ),
