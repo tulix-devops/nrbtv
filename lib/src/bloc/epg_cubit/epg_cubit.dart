@@ -1,3 +1,4 @@
+import 'package:app_logger/app_logger.dart';
 import 'package:commons/commons.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -17,16 +18,31 @@ class EpgCubit extends Cubit<EpgState> {
 
   final EpgRepository _repo;
 
+  TvScheduleModel _findIsNotFuture(ScheduleModel data) {
+    late TvScheduleModel epg;
+    for (final item in data.data.entries) {
+      for (final value in item.value) {
+        if (!value.isFuture) {
+          epg = value;
+          break;
+        }
+      }
+    }
+    return epg;
+  }
+
   Future<void> getEpg(int week) async {
     emit(state.copyWith(status: Status.loading));
     final res = await _repo.getEpg(week);
+    TvScheduleModel selectedEpg;
 
     (switch (res) {
       SuccessModel<ScheduleModel>() => {
+          selectedEpg = _findIsNotFuture(res.data),
           emit(
             state.copyWith(
+              selectedDvr: selectedEpg,
               epgContent: res.data.data,
-              selectedDvr: res.data.data.values.elementAt(5).first,
               status: Status.success,
             ),
           ),

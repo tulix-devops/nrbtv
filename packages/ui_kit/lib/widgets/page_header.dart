@@ -27,10 +27,8 @@ class PageHeader extends StatelessWidget {
     return SliverAppBar(
       leading: null,
       toolbarHeight: isPortrait ? 50 : 70,
-      surfaceTintColor:
-          isTv ? context.uiColors.tvSurface : context.uiColors.surface,
-      backgroundColor:
-          isTv ? context.uiColors.tvSurface : context.uiColors.surface,
+      surfaceTintColor: context.uiColors.surface,
+      backgroundColor: context.uiColors.surface,
       automaticallyImplyLeading: false,
       floating: true,
       primary: true,
@@ -40,9 +38,7 @@ class PageHeader extends StatelessWidget {
           children: [
             Positioned.fill(
               child: ColoredBox(
-                color: isTv
-                    ? context.uiColors.tvSurface
-                    : context.uiColors.surface,
+                color: context.uiColors.surface,
               ),
             ),
             Row(

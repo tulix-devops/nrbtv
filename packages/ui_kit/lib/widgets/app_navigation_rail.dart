@@ -20,15 +20,8 @@ class AppNavigationRail extends StatefulWidget {
 class _AppNavigationRailState extends State<AppNavigationRail> {
   late final List<({String label, String icon, BottomBarTab value})> _buttons =
       [
-    (
-      label: 'Search',
-      icon: Assets.searchNavigationIcon,
-      value: BottomBarTab.archive
-    ),
     (label: 'Home', icon: Assets.homeIcon, value: BottomBarTab.archive),
     (label: 'Live', icon: Assets.liveIcon, value: BottomBarTab.live),
-    // (label: 'VOD', icon: Assets.videoIcon, value: BottomBarTab.vod),
-    // (label: 'Series', icon: Assets.tvShowIcon, value: BottomBarTab.series),
     (label: 'Account', icon: Assets.accountIcon, value: BottomBarTab.account),
   ];
   FocusNode _getFocus(int index, int length) {

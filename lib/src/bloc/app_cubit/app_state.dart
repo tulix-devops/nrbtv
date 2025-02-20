@@ -16,7 +16,7 @@ class AppState with _$AppState {
 
   const factory AppState({
     @Default(AuthStatus.unauthenticated) AuthStatus authStatus,
-    @Default(BottomBarTab.archive) BottomBarTab currentTab,
+    @Default(BottomBarTab.live) BottomBarTab currentTab,
     @Default(AppThemeColor.blue) AppThemeColor themeColor,
     @Default(false) bool isOnboardingComplete,
     @Default(false) bool hasOverlay,
