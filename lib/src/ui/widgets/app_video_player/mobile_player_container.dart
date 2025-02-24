@@ -64,12 +64,13 @@ class _MobilePlayerContainerState extends State<MobilePlayerContainer> {
       enableProgressBar: false,
       enablePlayPause: false,
       playerTheme: BetterPlayerTheme.custom,
-      customControlsBuilder: (controller, onPlayerVisibilityChanged) =>
-          CustomPlayerControl(
-        controller: controller,
-        isLive: widget.isLive,
-        video: widget.video,
-      ),
+      customControlsBuilder: context.isTv
+          ? null
+          : (controller, onPlayerVisibilityChanged) => CustomPlayerControl(
+                controller: controller,
+                isLive: widget.isLive,
+                video: widget.video,
+              ),
     );
   }
 

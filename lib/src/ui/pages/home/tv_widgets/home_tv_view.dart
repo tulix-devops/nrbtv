@@ -1,11 +1,9 @@
 import 'package:app_focus/app_focus.dart';
-import 'package:nrbtv/src/bloc/app_cubit/app_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nrbtv/src/bloc/content_cubit/content_cubit.dart';
 import 'package:nrbtv/src/data/models/content/content.dart';
 import 'package:nrbtv/src/ui/widgets/tv_collection_view.dart';
-import 'package:nrbtv/src/ui/widgets/widgets.dart';
 import 'package:ui_kit/widgets/app_loading_indicator.dart';
 
 class HomeTvView extends StatefulWidget {

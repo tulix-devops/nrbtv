@@ -8,7 +8,9 @@ import 'package:nrbtv/src/data/models/content/tv_schedule_model.dart';
 import 'package:nrbtv/src/ui/pages/home/phone_widgets/widgets.dart';
 import 'package:nrbtv/src/ui/pages/pages.dart';
 import 'package:nrbtv/src/ui/widgets/app_video_player/mobile_player_container.dart';
+import 'package:nrbtv/src/ui/widgets/app_video_player/widgets/dvr.dart';
 import 'package:nrbtv/src/ui/widgets/widgets.dart';
+import 'package:river_player/river_player.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:nrbtv/src/core/core.dart';
 
@@ -34,7 +36,6 @@ class _HomePageState extends State<HomePage> {
             state.epgContent!.isEmpty ||
             state.selectedDvr == null;
 
-        print('isloading $isLoading');
         return AppStatusWidget(
           status: state.status,
           loaderWidget: const Center(
@@ -81,8 +82,9 @@ class _HomePageState extends State<HomePage> {
                         padding: EdgeInsets.all(8.0),
                         child: HomePhoneDvr(),
                       ),
-                      tvWidget: HomeTvView(
-                        controller: _controller,
+                      tvWidget: Dvr(
+                        callback: () => {},
+                        // controller: BetterPlayerController(betterPlayerConfiguration),
                       ),
                     ),
                     const DeviceWrapper(

@@ -20,7 +20,7 @@ class AppNavigationRail extends StatefulWidget {
 class _AppNavigationRailState extends State<AppNavigationRail> {
   late final List<({String label, String icon, BottomBarTab value})> _buttons =
       [
-    (label: 'Home', icon: Assets.homeIcon, value: BottomBarTab.archive),
+    (label: 'Archive', icon: Assets.homeIcon, value: BottomBarTab.archive),
     (label: 'Live', icon: Assets.liveIcon, value: BottomBarTab.live),
     (label: 'Account', icon: Assets.accountIcon, value: BottomBarTab.account),
   ];

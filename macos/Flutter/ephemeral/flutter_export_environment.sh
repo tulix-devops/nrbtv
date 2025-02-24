@@ -1,7 +1,7 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
-export "FLUTTER_ROOT=C:\flutter"
-export "FLUTTER_APPLICATION_PATH=C:\Users\saba\Documents\GitHub\nrbtv_tv"
+export "FLUTTER_ROOT=/Users/tulix/fvm/versions/3.24.0"
+export "FLUTTER_APPLICATION_PATH=/Users/tulix/Documents/nrbtv"
 export "COCOAPODS_PARALLEL_CODE_SIGN=true"
 export "FLUTTER_BUILD_DIR=build"
 export "FLUTTER_BUILD_NAME=1.0.1"
