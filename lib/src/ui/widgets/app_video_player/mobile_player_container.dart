@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nrbtv/src/bloc/epg_cubit/epg_cubit.dart';
 import 'package:nrbtv/src/data/models/content/tv_schedule_model.dart';
@@ -7,6 +8,7 @@ import 'package:nrbtv/src/ui/widgets/app_video_player/widgets/black_background.d
 import 'package:river_player/river_player.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:commons/commons.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class MobilePlayerContainer extends StatefulWidget {
   const MobilePlayerContainer(
@@ -30,6 +32,8 @@ class _MobilePlayerContainerState extends State<MobilePlayerContainer> {
 
   @override
   void dispose() {
+    controller.dispose();
+
     super.dispose();
   }
 
@@ -41,6 +45,7 @@ class _MobilePlayerContainerState extends State<MobilePlayerContainer> {
     );
     final betterPlayerConfiguration = BetterPlayerConfiguration(
       autoDispose: true,
+      allowedScreenSleep: false,
       looping: false,
       placeholderOnTop: false,
       autoPlay: true,
@@ -81,7 +86,7 @@ class _MobilePlayerContainerState extends State<MobilePlayerContainer> {
           )
         : Container(
             width: double.infinity,
-            height: 250,
+            height: 220,
             color: context.uiColors.surface,
             child: const Center(
                 child: AppLoadingIndicator(
@@ -114,6 +119,8 @@ class _CustomPlayerControlState extends State<CustomPlayerControl> {
   @override
   void initState() {
     super.initState();
+    WakelockPlus.enable();
+
     _inkFocus = FocusNode(
       skipTraversal: true,
     );
@@ -122,6 +129,7 @@ class _CustomPlayerControlState extends State<CustomPlayerControl> {
 
   @override
   void dispose() {
+    WakelockPlus.disable();
     _inkFocus.dispose();
     super.dispose();
   }
@@ -174,6 +182,23 @@ class PlayerContorls extends StatefulWidget {
 }
 
 class _PlayerContorlsState extends State<PlayerContorls> {
+  late FocusNode _videoButtonFocus;
+  late FocusNode _fullScreenFocus;
+
+  @override
+  void initState() {
+    super.initState();
+    _videoButtonFocus = FocusNode();
+    _fullScreenFocus = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    _videoButtonFocus.dispose();
+    _fullScreenFocus.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<VideoPlayerCubit, VideoPlayerState>(
@@ -200,7 +225,7 @@ class _PlayerContorlsState extends State<PlayerContorls> {
                         context.read<VideoPlayerCubit>().handleVisibility();
                       },
                       icon: _playIcon(),
-                      focusNode: FocusNode(),
+                      focusNode: _videoButtonFocus,
                     ),
                   ),
                   widget.isLive
@@ -215,6 +240,29 @@ class _PlayerContorlsState extends State<PlayerContorls> {
                     flex: 2,
                     child: VideoButton(
                         onPressed: (context) {
+                          if (widget.isLive) {
+                            if (MediaQuery.of(context).orientation ==
+                                Orientation.portrait) {
+                              SystemChrome.setPreferredOrientations([
+                                DeviceOrientation.landscapeLeft,
+                                DeviceOrientation.landscapeRight
+                              ]);
+                              return;
+                            } else {
+                              SystemChrome.setPreferredOrientations([
+                                DeviceOrientation.portraitUp,
+                                DeviceOrientation.portraitDown,
+                              ]).then((val) {
+                                SystemChrome.setPreferredOrientations([
+                                  DeviceOrientation.portraitUp,
+                                  DeviceOrientation.portraitDown,
+                                  DeviceOrientation.landscapeLeft,
+                                  DeviceOrientation.landscapeRight
+                                ]);
+                              });
+                              return;
+                            }
+                          }
                           context.pushNamed(VideoPlayerPage.path, extra: {
                             'tvScheduleModel': widget.video,
                             'epgCubit': context.read<EpgCubit>(),
@@ -222,7 +270,7 @@ class _PlayerContorlsState extends State<PlayerContorls> {
                           });
                         },
                         icon: Assets.videoFullScreen,
-                        focusNode: FocusNode()),
+                        focusNode: _fullScreenFocus),
                   )
                 ],
               ),

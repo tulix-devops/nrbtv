@@ -1,15 +1,10 @@
 import 'package:app_focus/app_focus.dart';
 import 'package:commons/commons.dart';
-import 'package:nrbtv/src/bloc/epg_cubit/epg_cubit.dart';
-import 'package:nrbtv/src/data/data_sources/live_datasource/live_data_source.dart';
-import 'package:nrbtv/src/data/repositories/epg/epg_repository.dart';
 import 'package:nrbtv/src/index.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nrbtv/src/bloc/content_cubit/content_cubit.dart';
-import 'package:nrbtv/src/bloc/search_page_filter/search_filter_bloc.dart';
-import 'package:local_storage/local_storage.dart';
+import 'package:nrbtv/src/ui/pages/give/give_page.dart';
 
 import 'pages/content/content_page.dart';
 
@@ -28,29 +23,10 @@ class _AppViewState extends State<AppView> {
   @override
   void initState() {
     pages = {
-      // BottomBarTab.search.index: BlocProvider<SearchFilterBloc>(
-      //   key: const ValueKey('search'),
-      //   create: (ctx) {
-      //     final ContentRepository repo = ContentRepositoryImpl(
-      //         contentRemoteRepository:
-      //             ContentRemoteDataSource(ctx.read<CustomHTTPClient>()));
-      //     return SearchFilterBloc(contentRepository: repo);
-      //   },
-      //   child: const TvSearchPage(),
-      // ),
-      BottomBarTab.archive.index: MultiBlocProvider(
-        key: const ValueKey('home'),
-        providers: [
-          BlocProvider<EpgCubit>(
-            create: (context) => EpgCubit(
-              repo: EpgRepositoryImpl(
-                dataSource: LiveDataSource(context.read<CustomHTTPClient>()),
-              ),
-            )..getEpg(4),
-          ),
-        ],
-        child: const HomePage(),
+      BottomBarTab.archive.index: const HomePage(
+        key: PageStorageKey('home_page'),
       ),
+      BottomBarTab.give.index: const GivePage(),
       BottomBarTab.account.index: BlocProvider<ProfileCubit>(
         key: const ValueKey('account'),
         create: (ctx) {
@@ -67,16 +43,9 @@ class _AppViewState extends State<AppView> {
         },
         child: const ProfilePage(),
       ),
-      BottomBarTab.live.index: BlocProvider<EpgCubit>(
-        key: const ValueKey('live'),
-        create: (ctx) => EpgCubit(
-          repo: EpgRepositoryImpl(
-            dataSource: LiveDataSource(context.read<CustomHTTPClient>()),
-          ),
-        )..getLive(),
-        child: ContentPage(
-          contentTypeIndex: ContentType.channel.value,
-        ),
+      BottomBarTab.live.index: ContentPage(
+        contentTypeIndex: ContentType.channel.value,
+        key: const PageStorageKey('page_content'),
       ),
     };
     super.initState();
@@ -96,11 +65,14 @@ class _AppViewState extends State<AppView> {
     return AppAuthDialogListener(
       child: AppFocusGroup(
         child: AppScaffold(
-          hasNavbar: true,
+          hasNavbar:
+              context.read<AppCubit>().state.currentTab != BottomBarTab.live &&
+                      context.read<AppCubit>().state.currentTab !=
+                          BottomBarTab.archive ||
+                  MediaQuery.of(context).orientation == Orientation.portrait,
           body: AnimatedSwitcher(
             duration: Durations.short4,
             transitionBuilder: (Widget child, Animation<double> animation) {
-              print('is tv ${context.isTv}');
               final Offset tvOffset = context.read<AppCubit>().state.canPop
                   ? const Offset(1, 0)
                   : const Offset(0, 1);

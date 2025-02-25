@@ -23,12 +23,12 @@ class _AppBottomBarState extends State<AppBottomBar> {
       _buttons = [
     (label: 'Live', icon: Assets.vod, value: BottomBarTab.live),
     (label: 'Archive', icon: Assets.home, value: BottomBarTab.archive),
-    (label: 'Account', icon: Assets.profileLight, value: BottomBarTab.account),
+    (label: 'Give', icon: Assets.give, value: BottomBarTab.give),
+    (label: 'About Us', icon: Assets.profileLight, value: BottomBarTab.account),
   ];
 
   @override
   Widget build(BuildContext context) {
-    // final Color color = context.isDarkMode ? AppColors.dark3 : Colors.white;
     final Color color = context.isDarkMode
         ? const Color.fromRGBO(24, 26, 32, 0.85)
         : const Color.fromRGBO(24, 26, 32, 0.85);

@@ -77,6 +77,7 @@ class _AppVideoPlayerState extends State<AppVideoPlayer> {
       autoDispose: true,
       looping: false,
       placeholderOnTop: false,
+      allowedScreenSleep: false,
       autoPlay: true,
       aspectRatio: 16 / 9,
       autoDetectFullscreenAspectRatio: true,

@@ -49,7 +49,7 @@ enum BottomBarType {
   black,
 }
 
-enum BottomBarTab { live, archive, account }
+enum BottomBarTab { live, archive, give, account }
 
 enum AuthStatus { authenticated, unauthenticated }
 

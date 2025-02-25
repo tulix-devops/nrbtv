@@ -8,50 +8,25 @@ import 'package:ui_kit/ui_kit.dart';
 
 final List<Map<String, dynamic>> _terms = [
   {
-    'title': '1. AGREE TO PERFORM AND PAY',
     'description':
-        'POCKO Channel agrees to perform services defined in the Attached Proposal, and CUSTOMER agrees to pay the fees for the services in the sums described in the Attached Proposal for the TERM of the Agreement.'
+        'NRBTV, a trusted source for faith-based television, is excited to announce its addition to the DISH Network lineup on channel 274. This milestone expands NRBTV\'s reach, providing more households across the United States access to our unique, Christ-centered programming.'
   },
   {
-    'title': '2. TERM OF AGREEMENT',
     'description':
-        'The TERM of this Agreement shall be effective for the TERM specified in the contract unless terminated earlier as provided herein. This Agreement shall automatically renew itself for additional terms equal to the length of the original TERM, unless either party gives the other written notice of its desire not to renew at least: CUSTOMER is responsible for full and total payment of TERM regardless of early termination of services.'
+        'Since its founding in 2005, NRBTV has been committed to delivering high-quality, faith-based content that helps viewers learn, know, apply, share, and live God\'s truth. By joining DISH Network\'s channel lineup, NRBTV continues to fulfill its mission of impacting culture through Christian television.'
   },
   {
-    'title': '3. ENTIRE AGREEMENT',
     'description':
-        'The Terms and Conditions contained in this Agreement supersede all prior oral or written understandings between the parties and constitute the entire agreement between them concerning the subject matter of this Agreement and shall not be contradicted, explained or supplemented by any course of dealing POCKO Channel or any of its affiliates and CUSTOMER or any of its affiliates. There are no understandings or representations, express or implied, not expressly set forth in this Agreement. This Agreement shall not be modified or amended except in writing signed by the parties.'
+        '“Our partnership with DISH Network allows us to bring transformative programming to an even wider audience,” said NRBTV President and CEO Troy A. Miller. "We\'re thrilled to offer DISH viewers engaging content that inspires and encourages viewers to put their faith into practice."'
   },
   {
-    'title': '4. PROVIDED INFORMATION',
     'description':
-        'All materials delivered to POCKO Channel by CUSTOMER ("CUSTOMER"s Material") shall remain the property of CUSTOMER, and POCKO Channel shall not have the right to use the CUSTOMER"s Material except in performing the Development Services for CUSTOMER. The CUSTOMER warrants that all information and any other material provided to POCKO Channel is owned by the CUSTOMER. All Work Product except for the CUSTOMER"s Material shall be the sole property of POCKO Channel, and POCKO Channel reserves all rights in the Work Product, subject to the above license.'
+        'DISH customers can now tune in to channel 274 to enjoy NRBTV\'s diverse lineup of inspirational programming, featuring Christian teaching, preaching, apologetics, and educational content—a unique blend that rivals leading educational networks while maintaining a distinctly Christian perspective.'
   },
   {
-    'title': '5. CORE MODULES',
     'description':
-        'POCKO Channel uses core modules of software code to build Programming Code and does not grant CUSTOMER resale or licensing rights to the Programming Code. All Work Product is subject to intellectual property rights reserved by POCKO Channel and/or others as designated by POCKO Channel, and may not be further licensed or transferred to others by CUSTOMER.'
+        'This expansion marks another milestone in NRBTV\'s mission to impact culture through Christian television. Don\'t miss out—tune in today and be encouraged in your faith!'
   },
-  {
-    'title': '6. PRICE VARIANCE',
-    'description':
-        'POCKO Channel price is subject to a variance of fifteen percent (15%) due to the interactive nature of creative, technical, and other development work for fixed-price, fixed-hour quote, or other estimated pricing. Costs for equipment may change due to market conditions and POCKO Channel agrees to promptly provide CUSTOMER notice of any such price changes. Unless noted otherwise, fixed-price estimates are subject to change by POCKO Channel if the requirements of the services to be performed change during the project based upon POCKO Channel understanding.'
-  },
-  {
-    'title': '7. CANCELLATION',
-    'description':
-        'CUSTOMER is responsible for full payment of TERM regardless of early termination. Account cancellation should be done by canceling subscription. Account will be automatically deactivated end of service term. All payments are non-refundable.'
-  },
-  {
-    'title': '8. DENIAL OF SERVICE',
-    'description':
-        'We reserve the right to refuse service to anyone at any time for any reason.'
-  },
-  {
-    'title': '',
-    'description':
-        'You can request by contacting us whether we are keeping personal data about you. We do, however, allow you to challenge our decision to refuse to provide you with a copy of your personal data.'
-  }
 ];
 
 class TermsOfUsePage extends StatefulWidget {
@@ -86,7 +61,7 @@ class _TermsOfUsePageState extends State<TermsOfUsePage> {
               context.pop();
             },
             isMainPage: false,
-            page: 'Terms Of Use',
+            page: 'About Us',
           ),
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
@@ -117,14 +92,9 @@ class _TermsOfUsePageState extends State<TermsOfUsePage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        policy['title'],
-                        style: TextStyles.h5.surface(context),
-                        textAlign: TextAlign.left,
-                      ),
                       const SizedBox(height: 10),
                       Text(policy['description'],
-                          style: TextStyles.bodyMedium.surface(context)),
+                          style: TextStyles.bodyLarge.surface(context)),
                       const SizedBox(height: 10),
                     ],
                   ),

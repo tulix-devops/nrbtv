@@ -19,16 +19,21 @@ class EpgCubit extends Cubit<EpgState> {
   final EpgRepository _repo;
 
   TvScheduleModel _findIsNotFuture(ScheduleModel data) {
-    late TvScheduleModel epg;
     for (final item in data.data.entries) {
       for (final value in item.value) {
         if (!value.isFuture) {
-          epg = value;
-          break;
+          return value;
         }
       }
     }
-    return epg;
+    return const TvScheduleModel(
+        id: -1,
+        start: '',
+        end: '',
+        name: '',
+        link: '',
+        thumbnail: '',
+        isFuture: true);
   }
 
   Future<void> getEpg(int week) async {

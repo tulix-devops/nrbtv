@@ -20,6 +20,7 @@ abstract final class Assets {
   static const String searchNavigationIcon = 'assets/svg/search_wc.svg';
   static const String tvShowIcon = 'assets/svg/tv_show_wc.svg';
   static const String videoIcon = 'assets/svg/video_wc.svg';
+  static const String give = 'assets/svg/give.svg';
 
   static const String star = 'assets/svg/star.svg';
   static const String starOutlined = 'assets/svg/star_outlined.svg';

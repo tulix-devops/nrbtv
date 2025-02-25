@@ -1,11 +1,8 @@
-import 'package:commons/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nrbtv/src/bloc/epg_cubit/epg_cubit.dart';
 import 'package:nrbtv/src/data/models/content/tv_schedule_model.dart';
-import 'package:nrbtv/src/index.dart';
 import 'package:ui_kit/ui_kit.dart';
-import 'package:ui_kit/widgets/app_modal.dart';
 
 class HomePhoneDvr extends StatefulWidget {
   const HomePhoneDvr({super.key});
@@ -26,20 +23,6 @@ class _HomePhoneDvrState extends State<HomePhoneDvr> {
             state.epgContent ?? {};
         final List<String> availableDays = epgContent.keys.toList();
 
-        int findKeyIndexOfFirstPastSchedule(
-            Map<String, List<TvScheduleModel>> epgContent) {
-          int index = 0;
-          for (var entry in epgContent.entries) {
-            for (var schedule in entry.value) {
-              if (!schedule.isFuture) {
-                return index;
-              }
-            }
-            index++;
-          }
-          return -1;
-        }
-
         if (selectedDay == null && availableDays.isNotEmpty) {
           selectedDay = availableDays.first;
         }
@@ -49,60 +32,86 @@ class _HomePhoneDvrState extends State<HomePhoneDvr> {
         return Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(
-                left: 14,
-                bottom: 24,
-                right: 14,
-              ),
+              padding: const EdgeInsets.only(left: 14, bottom: 24, right: 14),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   const Text('Archive', style: TextStyles.h5),
                   const Spacer(),
-                  IconButton(
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(
-                          isGridView ? context.uiColors.primary : null),
+                  Container(
+                    padding: const EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(12)),
+                      border: Border.all(
+                        color: context.uiColors.primary,
+                        width: 2,
+                      ),
                     ),
-                    icon: Icon(
-                      Icons.grid_on,
-                      color: isGridView
-                          ? context.uiColors.onSurface
-                          : context.uiColors.primary,
+                    child: Row(
+                      children: [
+                        IconButton(
+                          style: ButtonStyle(
+                            backgroundColor: WidgetStatePropertyAll(
+                                isGridView ? context.uiColors.primary : null),
+                          ),
+                          icon: Icon(
+                            Icons.grid_on,
+                            color: isGridView
+                                ? context.uiColors.onSurface
+                                : context.uiColors.primary,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              isGridView = true;
+                            });
+                          },
+                        ),
+                        IconButton(
+                          style: ButtonStyle(
+                            backgroundColor: WidgetStatePropertyAll(
+                                !isGridView ? context.uiColors.primary : null),
+                          ),
+                          icon: Icon(
+                            Icons.list,
+                            color: !isGridView
+                                ? context.uiColors.onSurface
+                                : context.uiColors.primary,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              isGridView = false;
+                            });
+                          },
+                        ),
+                      ],
                     ),
-                    onPressed: () {
-                      setState(() {
-                        isGridView = true;
-                      });
-                    },
-                  ),
-                  IconButton(
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(
-                          !isGridView ? context.uiColors.primary : null),
-                    ),
-                    icon: Icon(
-                      Icons.list,
-                      color: !isGridView
-                          ? context.uiColors.onSurface
-                          : context.uiColors.primary,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        isGridView = false;
-                      });
-                    },
                   ),
                   const Spacer(),
-                  DropDownDvr(
-                    index: findKeyIndexOfFirstPastSchedule(epgContent),
-                    availableDays: availableDays,
-                    selectedDay: selectedDay,
-                    onDayChanged: (day) {
-                      setState(() {
-                        selectedDay = day;
-                      });
-                    },
+                  GestureDetector(
+                    onTap: () => _showDatePickerDialog(context, availableDays),
+                    child: Container(
+                      padding: const EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: context.uiColors.primary,
+                          width: 2,
+                        ),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(12)),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            selectedDay ?? "Select a Date",
+                            style: TextStyles.bodyMediumBold,
+                          ),
+                          const SizedBox(width: 8),
+                          Icon(Icons.calendar_today,
+                              color: context.uiColors.primary),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -155,6 +164,36 @@ class _HomePhoneDvrState extends State<HomePhoneDvr> {
       },
     );
   }
+
+  void _showDatePickerDialog(BuildContext context, List<String> availableDays) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Select a Date"),
+          content: SizedBox(
+            height: 250,
+            width: double.maxFinite,
+            child: ListView.builder(
+              itemCount: availableDays.length,
+              itemBuilder: (context, index) {
+                final day = availableDays[index];
+                return ListTile(
+                  title: Text(day),
+                  onTap: () {
+                    setState(() {
+                      selectedDay = day;
+                    });
+                    Navigator.pop(context);
+                  },
+                );
+              },
+            ),
+          ),
+        );
+      },
+    );
+  }
 }
 
 class _InfoRowEpg extends StatelessWidget {
@@ -168,7 +207,7 @@ class _InfoRowEpg extends StatelessWidget {
     const _radius = BorderRadius.all(Radius.circular(12));
 
     return SizedBox(
-      height: 60,
+      height: 70,
       width: double.infinity,
       child: InkWell(
         borderRadius: _radius,
@@ -218,110 +257,6 @@ class _InfoRowEpg extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class DropDownDvr extends StatefulWidget {
-  final List<String> availableDays;
-  final String? selectedDay;
-  final int index;
-  final ValueChanged<String> onDayChanged;
-
-  const DropDownDvr({
-    super.key,
-    required this.availableDays,
-    required this.selectedDay,
-    required this.onDayChanged,
-    required this.index,
-  });
-
-  @override
-  State<DropDownDvr> createState() => _DropDownDvrState();
-}
-
-class _DropDownDvrState extends State<DropDownDvr> {
-  bool isAccessable(int index) {
-    return index >= widget.index + 7;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return DropdownButton<String>(
-      value: widget.selectedDay,
-      onChanged: (String? newValue) {
-        if (newValue != null) {
-          int selectedIndex = widget.availableDays.indexOf(newValue);
-
-          if (isAccessable(selectedIndex)) {
-            _buildLoginModal();
-            return;
-          }
-
-          widget.onDayChanged(newValue);
-        }
-      },
-      items: widget.availableDays.map((day) {
-        int index = widget.availableDays.indexOf(day);
-
-        final hasFutureSchedule = _hasFutureScheduleForDay(day);
-
-        return DropdownMenuItem<String>(
-            value: day,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(day,
-                    style: TextStyles.bodyMedium.copyWith(
-                        color: hasFutureSchedule
-                            ? AppColors.greyscale[500]
-                            : null)),
-                if (isAccessable(index))
-                  Text(
-                    'Login to Watch',
-                    style: TextStyles.bodyMedium
-                        .copyWith(color: context.uiColors.primary),
-                  ),
-              ],
-            ));
-      }).toList(),
-    );
-  }
-
-  bool _hasFutureScheduleForDay(String day) {
-    final epgContent = context.read<EpgCubit>().state.epgContent;
-    final schedules = epgContent?[day];
-
-    return schedules?.every((schedule) => schedule.isFuture) ?? false;
-  }
-
-  void _buildLoginModal() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AppModal(
-          title: 'You need to login to access VODs beyond 7 days',
-          label: 'Do you want to login?',
-          imageColor: context.uiColors.primary,
-          children: [
-            AppButton.primary(
-              label: 'Cancel',
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            Margins.horizontal10,
-            AppButton.primary(
-              label: 'Login',
-              onPressed: () {
-                Navigator.of(context).pop();
-                context.pushNamed(LoginPage.path);
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 }

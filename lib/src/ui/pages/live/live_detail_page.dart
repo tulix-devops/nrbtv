@@ -98,10 +98,10 @@ class _LiveDetailedScreenState extends State<LiveDetailPage> {
       return;
     }
 
-    if (!context.read<AppCubit>().state.isSubscribed) {
-      context.pushNamed(SubscribePage.name);
-      return;
-    }
+    // if (!context.read<AppCubit>().state.isSubscribed) {
+    //   context.pushNamed(SubscribePage.name);
+    //   return;
+    // }
 
     setState(() {
       isPlaying = !isPlaying;

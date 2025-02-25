@@ -134,6 +134,11 @@ class _ButtonListState extends State<_ButtonList> {
           label: 'Log In',
           onPressed: () => context.pushNamed(LoginPage.path),
         ),
+      _ButtonData(
+        icon: Assets.infoSquare,
+        label: 'About Us',
+        onPressed: () => context.pushNamed(TermsOfUsePage.path),
+      ),
     ];
 
     return Column(children: [
@@ -149,6 +154,9 @@ class _ButtonListState extends State<_ButtonList> {
             categories.elementAt(index).onPressed();
           },
         ),
+      ),
+      const SizedBox(
+        height: 24,
       ),
       if (widget.isAuthenticated)
         BlocProvider.value(
@@ -222,7 +230,7 @@ class _LogoutButton extends StatelessWidget {
                 // context.goNamed(LoginPage.name);
                 cubit.initUser();
                 context.pop();
-                context.goNamed(LoginPage.path);
+                // context.goNamed(LoginPage.path);
               },
             )
           ],

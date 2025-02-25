@@ -13,7 +13,7 @@ class SubscriptionCard extends StatelessWidget {
     );
     return InkWell(
         onTap: () {
-          context.pushNamed(SubscribePage.name);
+          // context.pushNamed(SubscribePage.name);
         },
         borderRadius: borderRadius,
         child: Container(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nrbtv/src/data/models/content/tv_schedule_model.dart';
 import 'package:nrbtv/src/ui/widgets/widgets.dart';
 import 'package:flutter/services.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class VideoPlayerPage extends StatefulWidget {
   const VideoPlayerPage({
@@ -25,6 +26,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
   @override
   void initState() {
     if (!context.isTv) {
+      WakelockPlus.enable();
       SystemChrome.setPreferredOrientations([
         DeviceOrientation.landscapeLeft,
         DeviceOrientation.landscapeRight,
@@ -35,6 +37,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
 
   @override
   void dispose() {
+    WakelockPlus.disable();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
@@ -46,10 +49,6 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
 
   @override
   Widget build(BuildContext context) {
-    // String? seriesLink = widget.video.type == 'series'
-    //     ? widget.video.seasons?.values.first.episodes.values.first.sources
-    //         .getPreferredVideoSource()
-    //     : null;
     return Scaffold(
       body: AppVideoPlayer(
         video: widget.video,
