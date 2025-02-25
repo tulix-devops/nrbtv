@@ -53,12 +53,6 @@ class _BodyState extends State<_Body> {
         final bool isAuthenticated = state.isAuthenticated;
         return CustomScrollView(
           slivers: [
-            PageHeader(
-              isTv: context.isTv,
-              onPressed: () {},
-              isMainPage: true,
-              page: 'My Account',
-            ),
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               sliver: SliverList(
@@ -118,10 +112,13 @@ class _ButtonListState extends State<_ButtonList> {
     );
   }
 
-  final FocusNode focusNode = FocusNode();
+  final List<FocusNode> focusNodes = List.generate(
+    2,
+    (index) => FocusNode(),
+  );
   @override
   void initState() {
-    focusNode.requestFocus();
+    focusNodes.first.requestFocus();
     super.initState();
   }
 
@@ -134,13 +131,18 @@ class _ButtonListState extends State<_ButtonList> {
           label: 'Log In',
           onPressed: () => context.pushNamed(LoginPage.path),
         ),
+      _ButtonData(
+        icon: Assets.infoSquare,
+        label: 'About Us',
+        onPressed: () => context.pushNamed(TermsOfUsePage.path),
+      ),
     ];
 
     return Column(children: [
       ...List.generate(
         categories.length,
         (index) => _Category(
-          focusNode: focusNode,
+          focusNode: focusNodes[index],
           leadingIcon: categories.elementAt(index).icon,
           label: categories.elementAt(index).label,
           isAuthenticated: categories.elementAt(index).isClickable,
@@ -150,25 +152,37 @@ class _ButtonListState extends State<_ButtonList> {
           },
         ),
       ),
+      const SizedBox(
+        height: 24,
+      ),
       if (widget.isAuthenticated)
         BlocProvider.value(
           value: context.read<AppCubit>(),
-          child: _LogoutButton(
-            focusNode: FocusNode(),
-          ),
+          child: _LogoutButton(),
         ),
     ]);
   }
 }
 
-class _LogoutButton extends StatelessWidget {
-  const _LogoutButton({required this.focusNode});
-  final FocusNode focusNode;
+class _LogoutButton extends StatefulWidget {
+  const _LogoutButton();
+
+  @override
+  State<_LogoutButton> createState() => _LogoutButtonState();
+}
+
+class _LogoutButtonState extends State<_LogoutButton> {
+  late final FocusNode focusNode;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      focusNode: focusNode,
+      // focusNode: focusNode,
       onPressed: () {
         final AppCubit cubit = context.read<AppCubit>();
         _showLogoutModal(context, cubit);
@@ -222,7 +236,7 @@ class _LogoutButton extends StatelessWidget {
                 // context.goNamed(LoginPage.name);
                 cubit.initUser();
                 context.pop();
-                context.goNamed(LoginPage.path);
+                // context.goNamed(LoginPage.path);
               },
             )
           ],

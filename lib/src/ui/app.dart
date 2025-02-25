@@ -1,6 +1,8 @@
 import 'package:commons/commons.dart';
 import 'package:nrbtv/src/bloc/epg_cubit/epg_cubit.dart';
+import 'package:nrbtv/src/data/data_sources/live_datasource/live_data_source.dart';
 import 'package:nrbtv/src/data/models/content/tv_schedule_model.dart';
+import 'package:nrbtv/src/data/repositories/epg/epg_repository.dart';
 import 'package:nrbtv/src/ui/pages/search/search_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -76,6 +78,9 @@ CupertinoPageRoute<dynamic> onGenerateRoute(
 
   try {
     switch (settings.name) {
+      case TermsOfUsePage.path:
+        page = const TermsOfUsePage();
+
       case ProvidedSearchPage.path:
         page = const ProvidedSearchPage();
       case SplashPage.path:
@@ -132,7 +137,17 @@ CupertinoPageRoute<dynamic> onGenerateRoute(
                 );
                 return ChannelCubit(channelRepository: repo)..init();
               },
-            )
+            ),
+            BlocProvider<EpgCubit>(create: (context) {
+              final EpgRepository repo = EpgRepositoryImpl(
+                dataSource: LiveDataSource(
+                  context.read<CustomHTTPClient>(),
+                ),
+              );
+              return EpgCubit(repo: repo)
+                ..getLive()
+                ..getEpg(4);
+            })
           ],
           child: const AppView(),
         );
@@ -195,8 +210,8 @@ CupertinoPageRoute<dynamic> onGenerateRoute(
           ),
         );
 
-      case SubscribePage.path:
-        page = const SubscribePage();
+      // case SubscribePage.path:
+      //   page = const SubscribePage();
 
       case PrivacyPolicyPage.path:
         page = const PrivacyPolicyPage();

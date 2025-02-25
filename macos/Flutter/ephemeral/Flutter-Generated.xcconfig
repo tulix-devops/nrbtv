@@ -1,6 +1,6 @@
 // This is a generated file; do not edit or check into version control.
-FLUTTER_ROOT=/Users/tulix/fvm/versions/3.24.0
-FLUTTER_APPLICATION_PATH=/Users/tulix/Documents/nrbtv
+FLUTTER_ROOT=C:\Users\saba\fvm\versions\3.24.0
+FLUTTER_APPLICATION_PATH=C:\Users\saba\Documents\GitHub\nrbtv
 COCOAPODS_PARALLEL_CODE_SIGN=true
 FLUTTER_BUILD_DIR=build
 FLUTTER_BUILD_NAME=1.0.1

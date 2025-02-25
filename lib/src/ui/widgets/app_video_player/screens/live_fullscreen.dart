@@ -49,7 +49,6 @@ class _LiveFullscreenState extends State<LiveFullscreen> {
 
   @override
   void initState() {
-    print('123');
     playPauseFocus.requestFocus();
     super.initState();
   }
@@ -73,17 +72,6 @@ class _LiveFullscreenState extends State<LiveFullscreen> {
         children: [
           if (context.read<VideoPlayerCubit>().state.isVisible)
             const BlackBackground(),
-          Positioned(
-            left: 60,
-            top: 20,
-            child: VideoButton(
-              onPressed: (ctx) {
-                ctx.pop();
-              },
-              icon: Assets.arrowLeft,
-              focusNode: arrowBackFocus,
-            ),
-          ),
           Positioned(
             left: 70,
             right: 60,

@@ -1,17 +1,12 @@
 import 'package:app_focus/app_focus.dart';
 import 'package:commons/commons.dart';
 import 'package:nrbtv/src/bloc/epg_cubit/epg_cubit.dart';
-import 'package:nrbtv/src/data/data_sources/live_datasource/live_data_source.dart';
-import 'package:nrbtv/src/data/repositories/epg/epg_repository.dart';
+import 'package:nrbtv/src/data/models/content/live_model.dart';
+import 'package:nrbtv/src/data/models/content/tv_schedule_model.dart';
 import 'package:nrbtv/src/index.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nrbtv/src/bloc/content_cubit/content_cubit.dart';
-import 'package:nrbtv/src/bloc/search_page_filter/search_filter_bloc.dart';
-import 'package:local_storage/local_storage.dart';
-
-import 'pages/content/content_page.dart';
 
 class AppView extends StatefulWidget {
   static const path = '/home';
@@ -25,31 +20,14 @@ class AppView extends StatefulWidget {
 class _AppViewState extends State<AppView> {
   late final Map<int, Widget> pages;
 
+  late final LiveModel? live;
+
   @override
   void initState() {
+    live = context.read<EpgCubit>().state.live;
     pages = {
-      // BottomBarTab.search.index: BlocProvider<SearchFilterBloc>(
-      //   key: const ValueKey('search'),
-      //   create: (ctx) {
-      //     final ContentRepository repo = ContentRepositoryImpl(
-      //         contentRemoteRepository:
-      //             ContentRemoteDataSource(ctx.read<CustomHTTPClient>()));
-      //     return SearchFilterBloc(contentRepository: repo);
-      //   },
-      //   child: const TvSearchPage(),
-      // ),
-      BottomBarTab.archive.index: MultiBlocProvider(
-        key: const ValueKey('home'),
-        providers: [
-          BlocProvider<EpgCubit>(
-            create: (context) => EpgCubit(
-              repo: EpgRepositoryImpl(
-                dataSource: LiveDataSource(context.read<CustomHTTPClient>()),
-              ),
-            )..getEpg(4),
-          ),
-        ],
-        child: const HomePage(),
+      BottomBarTab.archive.index: const HomePage(
+        key: PageStorageKey('home_page'),
       ),
       BottomBarTab.account.index: BlocProvider<ProfileCubit>(
         key: const ValueKey('account'),
@@ -67,17 +45,27 @@ class _AppViewState extends State<AppView> {
         },
         child: const ProfilePage(),
       ),
-      BottomBarTab.live.index: BlocProvider<EpgCubit>(
-        key: const ValueKey('live'),
-        create: (ctx) => EpgCubit(
-          repo: EpgRepositoryImpl(
-            dataSource: LiveDataSource(context.read<CustomHTTPClient>()),
-          ),
-        )..getLive(),
-        child: ContentPage(
-          contentTypeIndex: ContentType.channel.value,
-        ),
-      ),
+      BottomBarTab.live.index: BlocBuilder<EpgCubit, EpgState>(
+        builder: (context, state) {
+          final live = state.live;
+          if (live == null) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          return VideoPlayerPage(
+            isTrailer: false,
+            video: TvScheduleModel(
+              id: 21,
+              start: '',
+              end: '',
+              name: live.title,
+              link: live.sources.getPreferredVideoSource() ?? '',
+              thumbnail: live.images.getBanner(),
+              isFuture: false,
+            ),
+            key: const PageStorageKey('page_content'),
+          );
+        },
+      )
     };
     super.initState();
   }

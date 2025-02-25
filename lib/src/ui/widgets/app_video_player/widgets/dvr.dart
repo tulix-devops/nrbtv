@@ -43,29 +43,37 @@ class _DvrState extends State<Dvr> {
     if (seriesData == null || seriesData!.isEmpty) {
       return const SizedBox.shrink();
     }
-    return Focus(
-      focusNode: dvrFocus,
-      onFocusChange: (value) => setState(() {}),
-      onKeyEvent: (node, event) => _handleKeyEvent(event),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          SizedBox(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        const SizedBox(
+          width: 30,
+        ),
+        Focus(
+          focusNode: dvrFocus,
+          onFocusChange: (value) => setState(() {}),
+          onKeyEvent: (node, event) => _handleKeyEvent(event),
+          child: SizedBox(
             width: 200,
             height: MediaQuery.sizeOf(context).height - 40,
             child: ListView.builder(
               controller: _scrollController,
-              itemCount: seriesData!.keys.length,
+              itemCount: seriesData!.keys.length + 1,
               itemBuilder: (context, index) {
+                if (seriesData!.keys.length == index) {
+                  return const SizedBox(
+                    height: 100,
+                  );
+                }
                 final key = seriesData?.keys.elementAt(index);
                 return Container(
+                  height: 60,
                   margin: const EdgeInsets.only(bottom: 10),
                   decoration: BoxDecoration(
                     border: Border.all(
                       width: 2,
-                      color: (index == _currentPage) && dvrFocus.hasFocus
+                      color: (index == _currentPage)
                           ? context.uiColors.onSurface
                           : Colors.transparent,
                     ),
@@ -84,35 +92,40 @@ class _DvrState extends State<Dvr> {
               },
             ),
           ),
-          Expanded(
-            child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),
-                transitionBuilder: (Widget child, Animation<double> animation) {
-                  final offsetAnimation = Tween<Offset>(
-                    begin: const Offset(1, 0),
-                    end: Offset.zero,
-                  ).animate(animation);
+        ),
+        const SizedBox(
+          width: 100,
+        ),
+        SizedBox(
+          height: MediaQuery.sizeOf(context).height,
+          width: 300,
+          child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              transitionBuilder: (Widget child, Animation<double> animation) {
+                final offsetAnimation = Tween<Offset>(
+                  begin: const Offset(1, 0),
+                  end: Offset.zero,
+                ).animate(animation);
 
-                  return SlideTransition(
-                    position: offsetAnimation,
-                    child: child,
-                  );
-                },
-                child: _DvrCards(
-                  cardContainerFocus: cardContainerFocus,
-                  key: ValueKey<String>(_selectedDay),
-                  selectedDay: _selectedDay,
-                  seriesData: seriesData!,
-                )),
-          ),
-        ],
-      ),
+                return SlideTransition(
+                  position: offsetAnimation,
+                  child: child,
+                );
+              },
+              child: _DvrCards(
+                cardContainerFocus: cardContainerFocus,
+                key: ValueKey<String>(_selectedDay),
+                selectedDay: _selectedDay,
+                seriesData: seriesData!,
+              )),
+        ),
+      ],
     );
   }
 
   void updateScrollPosition(int index) {
     if (_scrollController.hasClients) {
-      final double offset = index * 50.0;
+      final double offset = index * 60.00;
       _scrollController.animateTo(
         offset.clamp(0.0, _scrollController.position.maxScrollExtent),
         duration: const Duration(milliseconds: 300),
@@ -175,7 +188,7 @@ class __DvrCardsState extends State<_DvrCards> {
   final ScrollController _scrollController = ScrollController();
   void updateScrollPosition(int index) {
     if (_scrollController.hasClients) {
-      final double offset = index * 200.0;
+      final double offset = index * 290;
       _scrollController.animateTo(
         offset.clamp(0.0, _scrollController.position.maxScrollExtent),
         duration: const Duration(milliseconds: 300),
@@ -186,7 +199,6 @@ class __DvrCardsState extends State<_DvrCards> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.cardContainerFocus.hasFocus);
     return Focus(
       focusNode: widget.cardContainerFocus,
       onFocusChange: (value) {
@@ -197,54 +209,65 @@ class __DvrCardsState extends State<_DvrCards> {
         height: MediaQuery.sizeOf(context).height - 40,
         child: ListView.builder(
           controller: _scrollController,
-          itemCount: widget.seriesData[widget.selectedDay]!.length,
+          itemCount: widget.seriesData[widget.selectedDay]!.length + 1,
           itemBuilder: (context, index) {
+            if (widget.seriesData[widget.selectedDay]!.length == index) {
+              return const SizedBox(
+                height: 100,
+              );
+            }
             final TvScheduleModel item =
                 widget.seriesData[widget.selectedDay]![index];
-            return Container(
-              padding: const EdgeInsets.all(1),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  width: 2,
-                  color: (index == _currentCardIndex) &&
-                          widget.cardContainerFocus.hasFocus
-                      ? context.uiColors.onSurface
-                      : Colors.transparent,
-                ),
-              ),
-              height: 200,
-              child: Row(
-                children: [
-                  SizedBox(
-                    child: Image.network(
-                      item.thumbnail,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Image.asset(Assets.nrbLogo, fit: BoxFit.cover);
-                      },
-                      fit: BoxFit.cover,
+            return Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(1),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 2,
+                      color: (index == _currentCardIndex) &&
+                              widget.cardContainerFocus.hasFocus
+                          ? context.uiColors.onSurface
+                          : Colors.transparent,
                     ),
                   ),
-                  Expanded(
-                    child: Container(
-                      color: context.uiColors.primary,
-                      padding: const EdgeInsets.all(8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            item.name,
-                            softWrap: true,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          Text('${item.start}-${item.end}'),
-                        ],
+                  height: 270,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        child: Image.network(
+                          item.thumbnail,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Image.asset(Assets.nrbLogo,
+                                fit: BoxFit.cover);
+                          },
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                    ),
+                      Text(
+                        item.name,
+                        softWrap: true,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyles.bodyLarge.copyWith(
+                            color: item.isFuture
+                                ? AppColors.greyscale[500]
+                                : context.uiColors.onSurface),
+                      ),
+                      Text(
+                        '${item.start}-${item.end}',
+                        style: TextStyles.bodyLarge.copyWith(
+                            color: item.isFuture
+                                ? AppColors.greyscale[500]
+                                : context.uiColors.onSurface),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(
+                  height: 20,
+                )
+              ],
             );
           },
         ),
