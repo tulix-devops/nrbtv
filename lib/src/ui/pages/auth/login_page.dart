@@ -55,8 +55,7 @@ class LoginPage extends StatelessWidget {
           ctx.l.loginSuccess,
         );
 
-        ctx.read<AppCubit>().changeTab(BottomBarTab.archive);
-        ctx.goNamed(AppView.path);
+        ctx.pop();
 
       case FormStatus.failure:
         ctx.read<AppCubit>().hideOverlay();

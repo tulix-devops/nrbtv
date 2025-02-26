@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:commons/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nrbtv/src/ui/app_view.dart';
 
 import 'package:ui_kit/ui_kit.dart';
 import 'package:ui_kit/widgets/app_modal.dart';
@@ -227,10 +228,9 @@ class _LogoutButton extends StatelessWidget {
               label: 'Yes, Log out',
               onPressed: () {
                 context.read<AppCubit>().onLogout();
-                // context.goNamed(LoginPage.name);
                 cubit.initUser();
                 context.pop();
-                // context.goNamed(LoginPage.path);
+                context.goNamed(AppView.path);
               },
             )
           ],

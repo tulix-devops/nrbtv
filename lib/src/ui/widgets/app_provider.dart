@@ -146,11 +146,6 @@ class AppBlocProvider extends StatelessWidget {
             context.read<AppCubit>().hideDialog();
             context.read<AppCubit>().initUser();
 
-            if (state.isAuthenticated) {
-              context.read<AppCubit>().changeTab(BottomBarTab.archive);
-              context.goNamed(AppView.path);
-            }
-
             // if (!Platform.isIOS) {
             //   router.goNamed(SubscribePage.name);
             // }
